@@ -1,0 +1,99 @@
+version: '3.9'
+
+services:
+  # ─── Backend API Server ─────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aurora-api
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=PRODUCTION
+      - HOST=0.0.0.0
+      - PORT=8000
+      - BLOCKCHAIN_ENABLED=true
+      - AUTO_START_WORKER=true
+      - DATA_MODE=LIVE
+      - EXECUTION_MODE=PAPER
+      - WORKER_INTERVAL_SECONDS=60
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app/backend
+      - ./logs:/app/logs
+      - ./state:/app/state
+    networks:
+      - aurora-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # ─── Frontend (Next.js) ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aurora-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - aurora-net
+    depends_on:
+      - api
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ─── PostgreSQL Database (Optional, for future scaling) ─────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: aurora-db
+    environment:
+      - POSTGRES_USER=aurora_user
+      - POSTGRES_PASSWORD=aurora_secure_pass
+      - POSTGRES_DB=aurora_trading
+    ports:
+      - "5432:5432"
+    volumes:
+      - aurora_db:/var/lib/postgresql/data
+    networks:
+      - aurora-net
+    restart: unless-stopped
+    profiles:
+      - postgres
+
+  # ─── Redis Cache (Optional, for rate limiting and sessions) ──────────────
+  redis:
+    image: redis:7-alpine
+    container_name: aurora-cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - aurora_cache:/data
+    networks:
+      - aurora-net
+    restart: unless-stopped
+    profiles:
+      - cache
+
+networks:
+  aurora-net:
+    driver: bridge
+
+volumes:
+  aurora_db:
+  aurora_cache:

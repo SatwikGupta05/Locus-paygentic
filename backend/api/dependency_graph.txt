@@ -1,0 +1,46 @@
+AURORA Module Dependency Graph
+
+backend/main.py
+  -> backend/api/server.py
+
+backend/api/server.py
+  -> backend/database/db_manager.py
+  -> backend/services/event_bus.py
+  -> backend/services/runtime_state.py
+  -> backend/services/trading_service.py
+  -> backend/workers/trading_worker.py
+  -> backend/utils/config.py
+  -> backend/utils/logger.py
+
+backend/workers/trading_worker.py
+  -> backend/services/trading_service.py
+  -> backend/services/runtime_state.py
+  -> backend/utils/config.py
+  -> backend/utils/logger.py
+
+backend/services/trading_service.py
+  -> backend/agents/scout_agent.py
+  -> backend/agents/analyst_agent.py
+  -> backend/agents/risk_agent.py
+  -> backend/blockchain/intent_router.py
+  -> backend/blockchain/intent_signer.py
+  -> backend/data/market_fetcher.py
+  -> backend/data/feature_engineering.py
+  -> backend/database/db_manager.py
+  -> backend/database/trade_logger.py
+  -> backend/engine/decision_engine.py
+  -> backend/engine/portfolio_manager.py
+  -> backend/execution/kraken_client.py
+  -> backend/execution/paper_executor.py
+  -> backend/ml/predictor.py
+
+backend/ml/train.py
+  -> backend/data/historical_loader.py
+  -> backend/data/feature_engineering.py
+  -> backend/utils/config.py
+
+backend/ml/backtest.py
+  -> backend/data/historical_loader.py
+  -> backend/data/feature_engineering.py
+  -> backend/ml/predictor.py
+  -> backend/utils/config.py

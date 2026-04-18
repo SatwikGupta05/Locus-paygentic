@@ -1,0 +1,92 @@
+# Environment variables (but NOT .env.example which should be committed)
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+backend/logs/
+backend/state/
+
+# Node.js
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.next/
+**/.next/
+**/.swc/
+frontend/build/
+frontend/dist/
+frontend/build_output*.txt
+frontend/tsc_output.txt
+tsconfig.tsbuildinfo
+
+# Debug & test scripts (local debugging only)
+debug_*.py
+analyze_trades.py
+test_classifier.py
+test_intent.py
+test_live_signals.py
+test_ml.py
+REGRESSION_TEST_SUITE.py
+dashboard_live.py
+
+# Runtime data files
+*.jsonl
+checkpoints.jsonl
+reputation-feedback.jsonl
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+.directory
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.eslintcache
+.stylelintcache
+
+# Cache
+.cache/
+tmp/
+temp/
+
+# DLL/binary files
+**/*.pack.gz
+**/*.dll
+
+# Misc
+proof/
+models/

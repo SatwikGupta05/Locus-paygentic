@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+joblib
+ccxt
+requests
+python-dotenv
+web3
+fastapi
+uvicorn
+python-multipart
+eth-account
+pyarrow
+psycopg2-binary
+httpx
+xgboost
